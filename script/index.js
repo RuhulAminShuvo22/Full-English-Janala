@@ -44,3 +44,55 @@ const loadLevelWord = (id) => {
       displayLevelWord(data.data);
     });
 };
+
+// {
+//     "word": "Linger",
+//     "meaning": "থেমে থাকা / বিলম্ব করা",
+//     "pronunciation": "লিঙ্গার",
+//     "level": 2,
+//     "sentence": "She lingered at the door, unwilling to leave.",
+//     "points": 2,
+//     "partsOfSpeech": "verb",
+//     "synonyms": [
+//         "stay",
+//         "remain",
+//         "delay"
+//     ],
+//     "id": 12
+// }
+
+const loadWordDetail = async (id) => {
+  const url = `https://openapi.programming-hero.com/api/word/${id}`;
+  const res = await fetch(url);
+  const details = await res.json();
+  displayWordDetails(details.data);
+};
+
+const displayWordDetails = (word) => {
+  console.log(word);
+  const detailsBox = document.getElementById("details-container");
+  detailsBox.innerHTML = `
+    <div class="">
+            <h2 class="text-2xl font-bold">
+              ${word.word} (<i class="fa-solid fa-microphone-lines"></i> :${
+    word.pronunciation
+  })
+            </h2>
+          </div>
+          <div class="">
+            <h2 class="font-bold">Meaning</h2>
+            <p>${word.meaning}</p>
+          </div>
+          <div class="">
+            <h2 class="font-bold">Example</h2>
+            <p>${word.sentence}</p>
+          </div>
+          <div class="">
+            <h2 class="font-bold">Synonym</h2>
+            <div class="">${createElements(word.synonyms)}</div>
+          </div>
+    
+    
+    `;
+  document.getElementById("word_modal").showModal();
+};
